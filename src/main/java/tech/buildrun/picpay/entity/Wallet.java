@@ -5,13 +5,12 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "tb_wallets")
+@Table(name = "tb_wallet")
 public class Wallet {
 
     @Id
-    @Column(name = "wallet_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long walletId;
+    private Long id;
 
     @Column(name = "full_name")
     private String fullName;
@@ -29,12 +28,8 @@ public class Wallet {
     private BigDecimal balance = BigDecimal.ZERO;
 
     @ManyToOne
-    @JoinColumn(name = "wallet_type")
+    @JoinColumn(name = "wallet_type_id")
     private WalletType walletType;
-
-    @Version
-    @Column(name = "version")
-    private Integer version;
 
     public Wallet() {
     }
@@ -47,12 +42,12 @@ public class Wallet {
         this.walletType = walletType;
     }
 
-    public boolean isBalanceBiggerThan(BigDecimal value) {
-        return this.getBalance().doubleValue() >= value.doubleValue();
+    public boolean isTransferAllowedForWalletType() {
+        return this.walletType.equals(WalletType.Enum.USER.get());
     }
 
-    public boolean isTransferAllowed() {
-        return this.walletType.equals(WalletType.Enum.USER.get());
+    public boolean isBalancerEqualOrGreatherThan(BigDecimal value) {
+        return this.balance.doubleValue() >= value.doubleValue();
     }
 
     public void debit(BigDecimal value) {
@@ -63,12 +58,12 @@ public class Wallet {
         this.balance = this.balance.add(value);
     }
 
-    public Long getWalletId() {
-        return walletId;
+    public Long getId() {
+        return id;
     }
 
-    public void setWalletId(Long walletId) {
-        this.walletId = walletId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -109,14 +104,6 @@ public class Wallet {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     public WalletType getWalletType() {

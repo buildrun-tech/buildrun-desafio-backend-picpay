@@ -6,13 +6,12 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_transactions")
-public class Transaction {
+@Table(name = "tb_transfer")
+public class Transfer {
 
     @Id
-    @Column(name = "transaction_id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID transactionId;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "wallet_sender_id")
@@ -25,21 +24,21 @@ public class Transaction {
     @Column(name = "value")
     private BigDecimal value;
 
-    public Transaction() {
+    public Transfer() {
     }
 
-    public Transaction(Wallet sender, Wallet receiver, BigDecimal value) {
+    public Transfer(Wallet sender, Wallet receiver, BigDecimal value) {
         this.sender = sender;
         this.receiver = receiver;
         this.value = value;
     }
 
-    public UUID getTransactionId() {
-        return transactionId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setTransactionId(UUID transactionId) {
-        this.transactionId = transactionId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Wallet getSender() {

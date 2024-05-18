@@ -18,8 +18,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Arrays.stream(WalletType.Enum.values()).forEach(type -> {
-            walletTypeRepository.save(type.get());
-        });
+        Arrays.stream(WalletType.Enum.values())
+                .forEach(walletType -> walletTypeRepository.save(walletType.get()));
     }
 }

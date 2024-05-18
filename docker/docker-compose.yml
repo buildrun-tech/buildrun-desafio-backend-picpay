@@ -8,5 +8,10 @@ services:
     environment:
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=123
-      - MYSQL_DATABASE=mydb
+      - MYSQL_DATABASE=picpaydb
       - MYSQL_ROOT_PASSWORD=123
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

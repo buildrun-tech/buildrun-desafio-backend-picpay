@@ -1,25 +1,27 @@
 package tech.buildrun.picpay.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import tech.buildrun.picpay.client.AuthorizationClient;
 import tech.buildrun.picpay.controller.dto.TransferDto;
+import tech.buildrun.picpay.exception.PicPayException;
 
 @Service
 public class AuthorizationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthorizationService.class);
-
-    private AuthorizationClient authorizationClient;
+    private final AuthorizationClient authorizationClient;
 
     public AuthorizationService(AuthorizationClient authorizationClient) {
         this.authorizationClient = authorizationClient;
     }
 
-    public boolean isTransferAllowed(TransferDto transaction) {
-        logger.info("Checking authorization service...");
-        return authorizationClient.getAuthorization().transferAllowed();
-    }
+    public boolean isAuthorized(TransferDto transfer) {
 
+        var resp = authorizationClient.isAuthorized();
+
+        if (resp.getStatusCode().isError()) {
+            throw new PicPayException();
+        }
+
+        return resp.getBody().authorized();
+    }
 }

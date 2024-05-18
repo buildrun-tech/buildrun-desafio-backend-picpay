@@ -17,15 +17,18 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var fields = e.getFieldErrors()
+
+        var fieldErros = e.getFieldErrors()
                 .stream()
                 .map(f -> new InvalidParam(f.getField(), f.getDefaultMessage()))
                 .toList();
 
-        var pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Your request parameters didn't validate.");
-        pd.setProperty("invalid-params", fields);
+        var pb = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        return pd;
+        pb.setTitle("Your request parameters didn't validate.");
+        pb.setProperty("invalid-params", fieldErros);
+
+        return pb;
     }
 
     private record InvalidParam(String name, String reason){}

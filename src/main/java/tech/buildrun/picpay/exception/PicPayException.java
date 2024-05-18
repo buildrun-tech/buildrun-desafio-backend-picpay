@@ -6,6 +6,10 @@ import org.springframework.http.ProblemDetail;
 public class PicPayException extends RuntimeException {
 
     public ProblemDetail toProblemDetail() {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "PicPay internal server error.");
+        var pb = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        pb.setTitle("PicPay internal server error");
+
+        return pb;
     }
 }

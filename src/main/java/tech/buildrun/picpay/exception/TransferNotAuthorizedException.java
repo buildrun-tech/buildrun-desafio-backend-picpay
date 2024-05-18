@@ -7,11 +7,11 @@ public class TransferNotAuthorizedException extends PicPayException{
 
     @Override
     public ProblemDetail toProblemDetail() {
-        var pd = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        var pb = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
-        pd.setTitle("Transfer not authorized.");
-        pd.setDetail("The authorization service did not authorized this transfer.");
+        pb.setTitle("Transfer not authorized.");
+        pb.setDetail("Authorization service not authorized this transfer.");
 
-        return pd;
+        return pb;
     }
 }
