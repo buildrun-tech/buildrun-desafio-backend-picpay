@@ -1,8 +1,12 @@
 package tech.buildrun.picpay.controller;
 
-import feign.Response;
 import jakarta.validation.Valid;
+
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +25,16 @@ public class TransferController {
 
     @PostMapping("/transfer")
     public ResponseEntity<Transfer> transfer(@RequestBody @Valid TransferDto dto) {
+        return ResponseEntity.ok(transferService.transfer(dto));
+    }
 
-        var resp = transferService.transfer(dto);
+    @GetMapping("/transfer/{uuid}")
+    public ResponseEntity<Transfer> getTransfer( UUID uuid) {
+        return ResponseEntity.ok(transferService.getTransfer(uuid));
+    }
 
-        return ResponseEntity.ok(resp);
+    @GetMapping("/transfer")
+    public ResponseEntity<List<Transfer>> getListTransfer() {
+        return ResponseEntity.ok(transferService.getListTransfer());
     }
 }

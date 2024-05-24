@@ -7,6 +7,7 @@ public class InsufficientBalanceException extends PicPayException{
 
     @Override
     public ProblemDetail toProblemDetail() {
+        
         var pb = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
         pb.setTitle("Insufficient balance.");

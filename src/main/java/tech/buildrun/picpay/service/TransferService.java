@@ -8,10 +8,13 @@ import tech.buildrun.picpay.entity.Wallet;
 import tech.buildrun.picpay.exception.InsufficientBalanceException;
 import tech.buildrun.picpay.exception.TransferNotAllowedForWalletTypeException;
 import tech.buildrun.picpay.exception.TransferNotAuthorizedException;
+import tech.buildrun.picpay.exception.TransferNotFoundException;
 import tech.buildrun.picpay.exception.WalletNotFoundException;
 import tech.buildrun.picpay.repository.TransferRepository;
 import tech.buildrun.picpay.repository.WalletRepository;
 
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -71,5 +74,14 @@ public class TransferService {
             throw new TransferNotAuthorizedException();
         }
 
+    }
+
+    public Transfer getTransfer( UUID uuid) {
+        return transferRepository.findById(uuid)
+                .orElseThrow(() -> new TransferNotFoundException(uuid));
+    }
+
+    public List<Transfer> getListTransfer() {
+        return transferRepository.findAll();
     }
 }
